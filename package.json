@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build-prod": "ng build --output-hashing none"
   },
   "private": true,
   "dependencies": {
@@ -21,7 +22,8 @@
     "@po-ui/ng-components": "^15.11.0",
     "@po-ui/ng-templates": "^15.11.0",
     "@totvs/mingle": "^0.0.1-20230525.1",
-    "@totvs/po-theme": "^15.12.0",
+    "@totvs/po-theme": "^15.12.1",
+    "po-theme-dark-red": "^1.0.1",
     "rxjs": "~7.5.5",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"

@@ -1,7 +1,7 @@
 import { MingleService } from '@totvs/mingle';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PoModule } from '@po-ui/ng-components';
@@ -31,6 +31,7 @@ export function initializeApp1(appInitService: AppInitService) {
     PoTemplatesModule,
     UserModule,
     MenuModule,
+    BrowserAnimationsModule,
 
   ],
   providers: [AppInitService,

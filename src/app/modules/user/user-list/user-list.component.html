@@ -1,5 +1,2 @@
-<po-table [p-items]="userlist">
+<po-table [p-items]="userlist" p-container="shadow" (p-show-more)="loadNextPage()">
 </po-table>
-<div class="po-row">
-  <po-button class="po-md-3" p-label="Carregar mais Resultados" (p-click)="loadNextPage()"> </po-button>
-</div>

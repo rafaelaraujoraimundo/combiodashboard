@@ -1,9 +1,20 @@
 <div class="po-wrapper">
-  <po-toolbar p-title="Combio energia"></po-toolbar>
+  <!--
+<po-navbar *ngIf="isAuth" [p-shadow]="poNavBarShadow" [p-items]="navbarMenus">
+  </po-navbar>
 
-  <po-menu p-logo="../../../../assets/Combio_neg.png" [p-collapsed]='collapsed' [p-menus]="menus"></po-menu>
+ -->
+  <po-toolbar *ngIf="isAuth" p-title="Combio energia v 1" [p-profile]="profile"
+    [p-profile-actions]="profileActions"></po-toolbar>
 
-  <po-page-default [p-title]="titleMenu">
+  <po-menu *ngIf="isAuth" p-logo="../../../../assets/Combio_neg.png" [p-collapsed]='collapsed'
+    [p-menus]="menus"></po-menu>
+
+  <po-page-default *ngIf="isAuth" [p-title]="titleMenu">
     <router-outlet></router-outlet>
   </po-page-default>
+  <div *ngIf="!isAuth">
+    <app-login></app-login>
+  </div>
+
 </div>

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { LoginService } from './modules/menu/login/login.service';
+
 
 @Component({
   selector: 'app-root',
@@ -6,4 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: []
 })
 export class AppComponent {
+
+
 }

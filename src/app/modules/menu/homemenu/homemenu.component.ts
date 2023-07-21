@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
-import { PoMenuItem } from '@po-ui/ng-components';
+import { PoMenuItem, PoDialogService, PoNotificationService, PoToolbarAction, PoToolbarProfile, PoNavbarItem  } from '@po-ui/ng-components';
 import { MingleService } from '@totvs/mingle';
 import { MenuService } from 'src/app/modules/menu/services/menu.service';
+import { LoginService } from '../login/login.service';
 
 @Component({
   selector: 'app-homemenu',
@@ -12,12 +13,39 @@ import { MenuService } from 'src/app/modules/menu/services/menu.service';
 export class HomemenuComponent {
   public collapsed = true
   public titleMenu: string = '';
+  public poNavBarShadow = true;
+  public isAuth: boolean = false
+  public displayName: any = localStorage.getItem('displayName');
+  public emailDisplay: any = localStorage.getItem('displayEmail')
 
-  constructor(private mingleService: MingleService, private http: HttpClient, private menuService: MenuService) {
+  navbarMenus: Array<PoNavbarItem> = [
+    {
+      label: 'User' , link: '/user'
+    }
+  ]
 
+
+
+  profile: PoToolbarProfile = {
+    avatar: 'https://via.placeholder.com/48x48?text=AVATAR',
+    subtitle: this.emailDisplay,
+    title: this.displayName
+  };
+
+  profileActions: Array<PoToolbarAction> = [
+    { icon: 'po-icon-user', label: 'Logout', action: (item: any) => this.showAction(item) }
+  ];
+
+
+  constructor( public loginService: LoginService, private mingleService: MingleService,  private menuService: MenuService, private poDialog: PoDialogService, private poNotification: PoNotificationService) {
+    this.displayName = localStorage.getItem('displayName')
+    this.emailDisplay = localStorage.getItem('emailDisplay')
   }
   ngAfterContentInit() {
     this.menuService.getTitleMenu$().subscribe((titleMenu) => this.titleMenu = titleMenu);
+    this.loginService.getIsAuthenticated$().subscribe((isOnline) => this.isAuth = isOnline )
+    this.displayName = localStorage.getItem('displayName')
+    this.emailDisplay = localStorage.getItem('displayEmail')
     }
 
 
@@ -28,23 +56,14 @@ export class HomemenuComponent {
   ];
 
   private onClick() {
-    this.mingleService.auth.login("r.raimundo",
-    "Aninh@13311918",
-    "COMBIO PRD")
-    .subscribe({
-      next: (dataLogin) => {
-      console.log("Login com sucesso - dados do login", dataLogin);
-
-    }, error: (error: any) => {
-      console.log('Erro', error);
-      console.error('Falha na autenticação');
-    }});
+    this.loginService.refreshToken()
+    //this.loginService.logout()
     }
 
-   private refreshToken(){
-    const bodyRefreshToken = this.mingleService.getBodyToRefreshTokenAPI();
-    const urlRefreshTOken = this.mingleService.getRefreshTokenURL();
 
-    this.http.post(urlRefreshTOken, bodyRefreshToken).subscribe(resultAuth => console.log('Refresh',resultAuth))
+  showAction(item: PoToolbarAction): void {
+    this.poNotification.success(`Action clicked: ${item.label}`);
+    console.log(item)
+    this.loginService.logout()
   }
 }

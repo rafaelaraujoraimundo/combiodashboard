@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from '../services/menu.service';
+import { ViewChild } from '@angular/core';
+
+import { PoModalComponent, PoTableColumn } from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-home',
@@ -19,4 +22,16 @@ export class HomeComponent {
     console.log('ngOnInit')
     this.updateTitleMenu()
     }
+
+    @ViewChild('detailsModal', { static: true })
+
+
+    paymentLink: string = 'https://www.google.com.br/search?q=days+to+payment';
+    itemsDetails: Array<any> | undefined;
+    titleDetailsModal: string | undefined;
+    typeChart: string = 'line';
+
+
+
+
 }

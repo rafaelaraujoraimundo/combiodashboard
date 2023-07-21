@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user-service.service';
 import { PoTableColumn } from '@po-ui/ng-components';
+import { MenuService } from '../../menu/services/menu.service';
 
 @Component({
   selector: 'app-user-list',
@@ -14,9 +15,13 @@ export class UserListComponent implements OnInit {
   private pageSize = 50;
   private dataUser: any
 
-  constructor(private userService: UserService) {}
-
+  constructor(private userService: UserService, private menuService: MenuService) {}
+  updateTitleMenu() {
+    this.menuService.emitTitleMenu$(this.titleMenu);
+  }
+  height = 600
   ngOnInit() {
+    this.updateTitleMenu()
     this.loadUsers();
   }
 
@@ -26,7 +31,6 @@ export class UserListComponent implements OnInit {
         this.dataUser = data
        this.dataUser.items.forEach( (data: any) => {
         this.userlist.push(data)
-        console.log(this.userlist)
        })
 
       }
