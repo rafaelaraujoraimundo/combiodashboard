@@ -13,11 +13,16 @@ const routes: Routes = [
    canActivate: [ AutenticacaoGuard ]
 
   },
+  {
+    path: 'commercial-families', loadChildren: () => import('./modules/datasul-commercial-families/commercial-families.routing').then( m=> m.CommercialFamiliesRoutes),
+    canActivate: [ AutenticacaoGuard ]
+
+   },
   {path: 'home', component: HomeComponent, canActivate: [ AutenticacaoGuard ]},
   {path: 'login', component: LoginComponent},
   {
     path: '',
-    redirectTo: '', pathMatch: 'full', canActivate: [ AutenticacaoGuard ]
+    component: HomeComponent, canActivate: [ AutenticacaoGuard ]
   },
 ];
 

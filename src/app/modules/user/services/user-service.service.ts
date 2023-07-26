@@ -7,8 +7,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  usuario = 'r.raimundo'
-  senha = 'Aninh@13311918'
+  usuario = ''
+  senha = ''
   getAllUsers(page: number, pageSize: number) {
     let params = new HttpParams();
     if (page) {

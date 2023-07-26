@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { PoNotificationService } from '@po-ui/ng-components';
 import { MingleService } from '@totvs/mingle';
 import { BehaviorSubject, Observable, buffer } from 'rxjs';
+import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,7 @@ export class LoginService {
     private http: HttpClient) { }
 
   private isAuthenticatedSource = new BehaviorSubject<Boolean>(false);
-  private userNameSource = new BehaviorSubject<string>('');
-
+  private userSource = new BehaviorSubject<object>({});
   isAuthenticated$ = this.isAuthenticatedSource.asObservable();
 
   getIsAuthenticated$(): Observable<any> {
@@ -27,15 +27,12 @@ export class LoginService {
   setIsAuthenticated$(isOnline: boolean) {
       this.isAuthenticatedSource.next(isOnline);
   }
-
-  getDisplayName$(): Observable<any> {
-      return this.userNameSource.asObservable();
-  }
-
-  setDisplayName$(displayName: string) {
-        this.userNameSource.next(displayName);
-  }
-
+ getDisplayUser$(): Observable<any> {
+  return this.userSource.asObservable();
+}
+setDisplayUser$(user: object) {
+  this.userSource.next(user);
+}
 
 
     // Utilizando o datasul para Login
@@ -80,9 +77,10 @@ export class LoginService {
         next: (datalogin: any) => {
           const jsonObject = JSON.parse(datalogin);
           const displayName = jsonObject.Resources[0].displayName;
-          localStorage.setItem('displayName',displayName)
           const email = jsonObject.Resources[0].emails[0].value;
-          localStorage.setItem('displayEmail',email )
+          const userCombio = { Name: displayName, Email: email, avatar: 'https://www.gravatar.com/avatar/'+ CryptoJS.MD5(email).toString() }
+          localStorage.setItem('userCombio', JSON.stringify(userCombio) )
+          this.setDisplayUser$({ Name: displayName, Email: email, Avatar: 'https://www.gravatar.com/avatar/'+ CryptoJS.MD5(email).toString() })
         },
         error:  (error) => {
           console.error(error);
@@ -103,9 +101,7 @@ export class LoginService {
   }
 
   isAuthenticated() {
-    this.isAuth = this.refreshToken()
-    if (this.isAuth) {}
-    return this.isAuth
+    this.refreshToken()
   }
 
   refreshToken() {
@@ -123,6 +119,7 @@ export class LoginService {
         },
         error:  (error) => {
           localStorage.removeItem('accessToken')
+          localStorage.removeItem('userCombio')
           console.error(error);
           this.setIsAuthenticated$(false)
 

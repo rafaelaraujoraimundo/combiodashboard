@@ -11,6 +11,7 @@ import { PoTemplatesModule } from '@po-ui/ng-templates';
 import { AppInitService } from './services/appinitservice.service';
 import { UserModule } from './modules/user/user.module';
 import { MenuModule } from './modules/menu/menu.module';
+import { DatasulCommerciaFamiliesModule } from './modules/datasul-commercial-families/datasul-commercia-families.module';
 
 
 export function initializeApp1(appInitService: AppInitService) {
@@ -32,6 +33,7 @@ export function initializeApp1(appInitService: AppInitService) {
     UserModule,
     MenuModule,
     BrowserAnimationsModule,
+    DatasulCommerciaFamiliesModule
 
   ],
   providers: [AppInitService,
